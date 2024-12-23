@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
@@ -77,10 +79,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		converter.setSigningKey("algaworks");
+		var jwtAccessTokenConverter = new JwtAccessTokenConverter();
 
-		return converter;
+		var jksResource = new ClassPathResource("keystores/algafood.jks");
+		var keyStorePass = "123456";
+		var keyPairAlias = "algafood";
+
+		var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
+		var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
+
+		jwtAccessTokenConverter.setKeyPair(keyPair);
+		return jwtAccessTokenConverter;
 	}
 	
 	@Override
