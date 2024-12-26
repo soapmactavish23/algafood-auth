@@ -1,4 +1,4 @@
-package com.algaworks.algafood_auth;
+package com.algaworks.algafood_auth.core;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
